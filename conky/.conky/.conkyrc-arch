@@ -1,0 +1,91 @@
+--[[
+Description: Show several system information, including CPU/RAM/Swap usage,
+             number of all processes, networking information, file system
+             usage, battery state, portage information and GLSA. It is based on
+             http://conky.sourceforge.net/conkyrc-hellfire
+Author: Daniela Duricekova <daniela.duricekova@gmail.com>
+Last change: 30/12/2016
+]]
+
+conky.config = {
+    color0 = 'd4a160',
+    color1 = 'fdefa6',
+
+    alignment = 'top_right',
+    background = false,
+    cpu_avg_samples = 2,
+    double_buffer = true,
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    use_xft = true,
+    font = 'Dejavu Sans Mono:size=10',
+    gap_x = 15,
+    gap_y = 15,
+    minimum_height = 50,
+    minimum_width = 50,
+    maximum_width = 340,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'override',
+    own_window_transparent = true,
+    stippled_borders = 3,
+    update_interval = 1.0,
+    use_spacer = 'none',
+    show_graph_scale = false,
+    show_graph_range = false,
+    total_run_times = 0,
+}
+
+conky.text = [[
+${color0}$nodename - $sysname $kernel on $machine
+${color1}${hr}
+${color0}Uptime:${color1} $uptime ${color0} - ${color0}Load:${color1} $loadavg
+${color0}CPU Usage:${color1} ${cpu cpu0}% ${cpubar cpubar0}
+${color0}RAM Usage:${color1} $mem/$memmax - $memperc% ${membar}
+${color0}Swap Usage:${color1} $swap/$swapmax - $swapperc% ${swapbar}
+${color0}Processes:${color1} $processes  ${color0}Running:${color1} $running_processes
+${color1}${hr}
+${color0}Networking:
+ ${color0}Down:${color1} ${downspeedf wlp3s0} k/s${color0}${goto 220}Up:${color1} ${upspeedf wlp3s0} k/s
+ ${color0}Down:${color1} ${downspeedf enp4s0} k/s${color0}${goto 220}Up:${color1} ${upspeedf enp4s0} k/s
+${color1}${hr}
+${color0}Today Transfers:
+  ${color0}Down: ${color1}${execi 300 vnstat --iface enp4s0 | grep "today" | awk '{print $2 $3}'} ${goto 220}\
+${color0}Up: ${color1}${execi 300 vnstat --iface enp4s0 | grep "today" | awk '{print $5 $6}'}
+${color0}Yesterday Transfers:
+  ${color0}Down: ${color1}${execi 300 vnstat --iface enp4s0 | grep "yesterday" | awk '{print $2 $3}'} ${goto 220}\
+${color0}Up: ${color1}${execi 300 vnstat --iface enp4s0 | grep "yesterday" | awk '{print $5 $6}'}
+${color0}Last Week Transfers:
+  ${color0}Down: ${color1}${execi 300 vnstat -w --iface enp4s0 | grep "current week" | awk '{print $3 $4}'} ${goto 220}\
+${color0}Up: ${color1}${execi 300 vnstat -w --iface enp4s0 | grep "current week" | awk '{print $6 $7}'}
+${color0}Last Month Transfers:
+  ${color0}Down: ${color1}${execi 300 vnstat -m --iface enp4s0 | grep "`date +"%b '%y"`" | awk '{print $3 $4}'} ${goto 220}\
+${color0}Up: ${color1}${execi 300 vnstat -m --iface enp4s0 | grep "`date +"%b '%y"`" | awk '{print $6 $7}'}
+${color1}${hr}
+${color0}File systems:
+ ${color0}/ ${color1}${fs_used /}/${fs_size /} ${fs_bar /}
+ ${color0}/mnt/data ${color1}${fs_used /mnt/data}/${fs_size /mnt/data} ${fs_bar /mnt/data}
+${color1}${hr}
+${color0}Battery:
+ ${color1} Battery bar:   ${battery_percent BAT0}% ${battery_bar BAT0}
+ ${color1} Batter status: ${battery BAT0}
+${color1}${hr}
+${color0}Name              PID     CPU%   MEM%
+${color0} ${top name 1} ${color1}${top pid 1} ${top cpu 1} ${top mem 1}
+${color0} ${top name 2} ${color1}${top pid 2} ${top cpu 2} ${top mem 2}
+${color0} ${top name 3} ${color1}${top pid 3} ${top cpu 3} ${top mem 3}
+${color0}Mem usage
+${color0} ${top_mem name 1} ${color1}${top_mem pid 1} ${top_mem cpu 1} ${top_mem mem 1}
+${color0} ${top_mem name 2} ${color1}${top_mem pid 2} ${top_mem cpu 2} ${top_mem mem 2}
+${color0} ${top_mem name 3} ${color1}${top_mem pid 3} ${top_mem cpu 3} ${top_mem mem 3}
+${color1}${hr}
+${color0}Arch Linux Recent Package Updates:
+${color1}${rss https://www.archlinux.org/feeds/packages/x86_64 600 item_titles 4}
+${color1}${hr}
+]]
