@@ -8,7 +8,7 @@ See the README files in subdirectories.
 
 ## License
 
-Copyright (c) 2018 Daniela Ďuričeková <daniela.duricekova@gmail.com>
+Copyright (c) 2018 Daniela Ďuričeková <daniela.duricekova@protonmail.com>
 
 Distributed under the MIT license. See the [LICENSE](LICENSE) file for more
 details.

@@ -3,7 +3,7 @@ Description: Show several system information, including CPU/RAM/Swap usage,
              number of all processes, networking information, file system
              usage, battery state, portage information and GLSA. It is based on
              http://conky.sourceforge.net/conkyrc-hellfire
-Author: Daniela Duricekova <daniela.duricekova@gmail.com>
+Author: Daniela Ďuričeková <daniela.duricekova@protonmail.com>
 Last change: 30/12/2016
 ]]
 
